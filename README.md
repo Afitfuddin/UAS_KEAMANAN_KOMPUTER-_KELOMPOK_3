@@ -181,13 +181,13 @@ sudo tcpdump -i eth1 -n "dst host 10.172.145.82"
 #### 4. Dampak Serangan (Impact Analysis)
 Untuk memverifikasi keberhasilan serangan, kami membandingkan aksesibilitas Web Server sebelum dan sesudah serangan dilakukan. <br>
 **Sebelum Serangan:** Halaman Login dan Dashboard dapat diakses dengan lancar. Data telemetri seperti Status GPS (*Locked*) dan jumlah satelit terbaca secara *real-time*.<br>
-**Sesudah Serangan:** Web Server menjadi tidak responsif (*Unreachable*). Browser menampilkan pesan error karena ESP32 mengalami *Resource Exhaustion* (kehabisan memori) akibat kebanjiran paket data.<br>
 Before Diserang Dos:
 | Kondisi Normal (Login) | Kondisi Normal (Dashboard) |
 | :---: | :---: |
 | <img src="https://github.com/user-attachments/assets/27adc4b5-b30c-4d4d-8353-3b409cb46c13" width="100%"> | <img src="https://github.com/user-attachments/assets/b660e662-0631-44ae-b5cc-aa7cfcf319bc" width="100%"> |
 | *Halaman Login* | *Dashboard menampilkan data GPS & Log* |
 
+**Sesudah Serangan:** Web Server menjadi tidak responsif (*Unreachable*). Browser menampilkan pesan error karena ESP32 mengalami *Resource Exhaustion* (kehabisan memori) akibat kebanjiran paket data.<br>
 After Diserang Dos:
 | Situs Tidak Dapat Dijangkau | Loading Terus Menerus |
 | :---: | :---: |
