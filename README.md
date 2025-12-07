@@ -1,5 +1,5 @@
 # 🛡️ Penetration Testing: Smart Blind Stick Web Server (ESP32)
-Analisis kerentanan keamanan Web Server pada perangkat IoT Smart Blind Stick berbasis ESP32 terhadap serangan Brute Force dan Denial of Service (DoS).
+Analisis keamanan Web Server pada perangkat IoT Smart Blind Stick berbasis ESP32 terhadap serangan Brute Force dan Denial of Service (DoS).
 
 ---
 
