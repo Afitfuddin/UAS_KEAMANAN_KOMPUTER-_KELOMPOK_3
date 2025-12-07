@@ -10,7 +10,7 @@ Berikut adalah tim yang terlibat dalam penyusunan laporan dan pengujian ini:
 |----|------|-----|
 | 1. | **Muhammad Afitfuddin** | 09030182327002 |
 | 2. | **Muhammad Aren Saputra** | 09030282327026 |
-| 3. | **Daniel** | [Masukkan NIM] |
+| 3. | **Daniel Juan Karel P S** | 09030582327092 |
 | 4. | **Tri Pramisari** | 0903028327035 |
 | 5. | **Fatimah Syafa Aulia** | 09030182327065 |
 | 6. | **Safitri** | 09030282327041 |
