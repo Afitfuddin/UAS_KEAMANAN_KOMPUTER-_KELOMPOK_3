@@ -102,9 +102,7 @@ Sebelum menyerang, kami memastikan target hidup dan mencari port yang terbuka. K
 | *Memastikan ESP32 aktif* | *Menemukan Port 80 Open* |
 
 #### 2. Analisis Struktur HTML (Web Reconnaissance)
-Setelah memastikan layanan web aktif, kami melakukan kunjungan langsung ke halaman web service untuk mengetahui struktur sederhana dari HTML-nya.
-
-Melalui fitur **Inspect Element**, kami menemukan arsitektur *body* HTML yang menunjukkan bahwa form login mengirimkan data menggunakan metode **POST** dengan nama parameter input `username` dan `password`. Informasi ini krusial untuk menyusun perintah serangan Hydra nantinya.
+Setelah memastikan layanan web aktif, kami melakukan kunjungan langsung ke halaman web service untuk mengetahui struktur sederhana dari HTML-nya. Melalui fitur **Inspect Element**, kami menemukan arsitektur *body* HTML yang menunjukkan bahwa form login mengirimkan data menggunakan metode **POST** dengan nama parameter input `username` dan `password`. Informasi ini krusial untuk menyusun perintah serangan Hydra nantinya.
 
 | Arsitektur HTML Body (Inspect Element) |
 | :---: |
