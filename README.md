@@ -185,11 +185,13 @@ Untuk memverifikasi keberhasilan serangan, kami membandingkan aksesibilitas Web 
 | :---: | :---: |
 | <img src="https://github.com/user-attachments/assets/27adc4b5-b30c-4d4d-8353-3b409cb46c13" width="100%"> | <img src="https://github.com/user-attachments/assets/b660e662-0631-44ae-b5cc-aa7cfcf319bc" width="100%"> |
 | *Halaman Login* | *Dashboard menampilkan data GPS & Log* |
-**Sesudah Serangan:** Web Server menjadi tidak responsif (*Unreachable*). Browser menampilkan pesan error karena ESP32 mengalami *Resource Exhaustion* (kehabisan memori) akibat kebanjiran paket data.
+
+**Sesudah Serangan:** Web Server menjadi tidak responsif (*Unreachable*). Browser menampilkan pesan error karena ESP32 mengalami *Resource Exhaustion* (kehabisan memori) akibat kebanjiran paket data.<br>
 | Situs Tidak Dapat Dijangkau | Loading Terus Menerus |
 | :---: | :---: |
 | <img src="https://github.com/user-attachments/assets/6b1835c3-260f-4422-91e3-14034432ff1d" width="100%"> | <img src="https://github.com/user-attachments/assets/a4dbc783-a417-48cc-9ac8-7bd71810c5b0" width="100%"> |
 | *Connection Timed Out* | *Sistem Gagal Merespons (Hang)* |
+
 
 #### 5. Penghentian Serangan
 Setelah dampak serangan terdokumentasi, proses *flooding* dihentikan dengan menekan `Ctrl+C` pada terminal Pentmenu agar jaringan kembali normal. Namun, pada beberapa kasus, ESP32 memerlukan *restart* manual untuk memulihkan fungsinya secara total.
