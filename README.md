@@ -44,43 +44,45 @@ Berikut adalah rancangan perangkat keras dan implementasi fisiknya:
 | <img src="https://github.com/user-attachments/assets/a423605a-6873-4e7d-8c3a-f58e59b4c846" width="300"> | <img src="https://github.com/user-attachments/assets/d98e4d7b-c0b1-48c3-a816-8062d7e4d8f8" width="300"> |
 
 **Komponen Utama:**
-* [cite_start]ESP32 (Microcontroller & Web Server) [cite: 10, 28]
-* Sensor Ultrasonik HC-SR04
-* Modul GPS
-* Buzzer & Vibration Motor
+* **ESP32 Development Board:** Sebagai otak utama (mikrokontroler) dan penyedia layanan Web Server.
+* **3x Sensor Ultrasonik (HC-SR04):** Untuk mendeteksi halangan di tiga sisi (kiri, depan, kanan).
+* **Modul GPS (U-blox NEO-8M):** Untuk mendapatkan koordinat lokasi pengguna secara real-time.
+* **Water Level Sensor:** Untuk mendeteksi adanya genangan air di jalan.
+* **Active Buzzer:** Sebagai output peringatan suara (alarm).
+* **Tactile Push Button:** Berfungsi sebagai tombol darurat (Emergency Button).
 
 ---
-
 ## 🎯 Target Pengujian
 Bagian ini berfokus pada sisi *software* yang berjalan di atas perangkat keras tersebut.
 
 * **Perangkat:** ESP32 Web Server (Smart Blind Stick).
 * **Fitur Web:** Login Page, Dashboard Monitoring (GPS Status, Emergency Log).
-* [cite_start]**IP Target:** `10.172.145.82` (Berdasarkan pengujian lokal)[cite: 11].
-* [cite_start]**Port Terbuka:** 80/tcp (HTTP)[cite: 27].
+* **IP Target:** `10.172.145.82` (Berdasarkan pengujian lokal).
+* **Port Terbuka:** 80/tcp (HTTP).
 
-*(Drag & drop gambar Dashboard Web Service di sini)*
-![Dashboard Tampilan](link-gambar-dashboard-kamu.png)
+**Deskripsi Web Service:**
+Web Service ini dirancang sebagai pusat kendali dan monitoring (*dashboard*) yang menampilkan data telemetri secara *real-time*. Sistem ini dilindungi oleh halaman login administrator untuk menjamin keamanan akses.
+
+| Tampilan Halaman Login | Tampilan Dashboard Monitoring |
+| :---: | :---: |
+| <img src="https://github.com/user-attachments/assets/92c00702-3194-4041-bc8e-089907a239ad" width="100%"> | <img src="https://github.com/user-attachments/assets/42a7403f-97e4-4fe8-8034-70a0baa12d62" width="100%"> |
+
+Pada antarmuka dashboard, terdapat fitur pemantauan utama berupa:
+**Status Sistem & GPS:** Menampilkan waktu sinkronisasi WiFi, status penguncian sinyal GPS (*Locked/Searching*), dan jumlah satelit yang terhubung.
+**Log Darurat:** Mencatat riwayat penekanan tombol darurat beserta koordinat lokasi kejadian yang terintegrasi langsung dengan **Google Maps** untuk mempermudah pelacakan pengguna.
 
 ---
 
 ## 🛠️ Tools & Lingkungan Pengujian
 Pengujian dilakukan menggunakan sistem operasi **Kali Linux** dengan *tools* berikut:
 
-* [cite_start]**Nmap:** Untuk pemindaian jaringan dan port (*Information Gathering*)[cite: 27].
-* [cite_start]**CUPP (Common User Password Profiler):** Untuk membuat wordlist password berbasis *social engineering*[cite: 32].
-* [cite_start]**Hydra:** Untuk melakukan serangan *Brute Force* pada form login[cite: 40].
-* [cite_start]**Pentmenu (Hping3):** Untuk melakukan serangan DoS (TCP SYN Flood)[cite: 51].
-* [cite_start]**Tcpdump:** Untuk monitoring paket jaringan yang masuk[cite: 66].
+**Nmap:** Untuk pemindaian jaringan dan port (*Information Gathering*).
+**CUPP (Common User Password Profiler):** Untuk membuat wordlist password berbasis *social engineering*.
+**Hydra:** Untuk melakukan serangan *Brute Force* pada form login.
+**Pentmenu (Hping3):** Untuk melakukan serangan DoS (TCP SYN Flood).
+**Tcpdump:** Untuk monitoring paket jaringan yang masuk.
 
 ---
 
 ## ⚔️ Skenario Serangan 1: Brute Force Attack
 
-[cite_start]Metode ini mencoba menebak kredensial login (username & password) administrator dengan mencoba ribuan kombinasi secara otomatis[cite: 23].
-
-### 1. Information Gathering
-Melakukan pengecekan port terbuka dan memastikan target hidup.
-```bash
-nmap 10.172.145.82
-ping 10.172.145.82
