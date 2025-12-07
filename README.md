@@ -30,7 +30,7 @@ Proyek ini bertujuan untuk menguji keamanan antarmuka *Web Service* yang berfung
 ## 🤖 Deskripsi Perangkat (Smart Blind Stick)
 Sebelum masuk ke pengujian keamanan, berikut adalah gambaran umum perangkat keras yang digunakan.
 
-### 1. Kegunaan & Cara Kerja
+### 1. Cara Kerja
 Alat ini dirancang untuk membantu tunanetra dalam navigasi. Sistem bekerja dengan cara:
 * **Deteksi Halangan:** Menggunakan sensor ultrasonik untuk mendeteksi objek di depan pengguna. Jika jarak terlalu dekat <= 50 cm buzzer akan aktif sebagai peringatan.
 * **Monitoring Lokasi:** Perangkat dilengkapi modul GPS yang mengirimkan koordinat lokasi pengguna secara *real-time* ke Web Server ESP32.
