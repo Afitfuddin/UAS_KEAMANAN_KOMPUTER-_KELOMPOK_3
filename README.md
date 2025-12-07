@@ -181,7 +181,7 @@ sudo tcpdump -i eth1 -n "dst host 10.172.145.82"
 #### 4. Dampak Serangan (Impact Analysis)
 Untuk memverifikasi keberhasilan serangan, kami membandingkan aksesibilitas Web Server sebelum dan sesudah serangan dilakukan. <br>
 **Sebelum Serangan:** Halaman Login dan Dashboard dapat diakses dengan lancar. Data telemetri seperti Status GPS (*Locked*) dan jumlah satelit terbaca secara *real-time*.<br>
-**Sesudah Serangan:** Web Server menjadi tidak responsif (*Unreachable*). Browser menampilkan pesan error karena ESP32 mengalami *Resource Exhaustion* (kehabisan memori) akibat kebanjiran paket data.
+**Sesudah Serangan:** Web Server menjadi tidak responsif (*Unreachable*). Browser menampilkan pesan error karena ESP32 mengalami *Resource Exhaustion* (kehabisan memori) akibat kebanjiran paket data.<br>
 Before Diserang Dos:
 | Kondisi Normal (Login) | Kondisi Normal (Dashboard) |
 | :---: | :---: |
@@ -201,3 +201,10 @@ Setelah dampak serangan terdokumentasi, proses *flooding* dihentikan dengan mene
 | :---: |
 | <img src="https://github.com/user-attachments/assets/b0686004-a1aa-47c1-9e2e-e69fd4f94129" width="100%"> |
 | *Menghentikan proses hping3* |
+
+
+## 📝 Kesimpulan
+Berdasarkan hasil pengujian penetrasi yang telah kami lakukan, dapat disimpulkan bahwa antarmuka Web Server pada Smart Blind Stick berbasis ESP32 memiliki kerentanan keamanan yang signifikan. Hal ini dibuktikan dengan keberhasilan skenario serangan Brute Force yang mampu menembus sistem autentikasi akibat lemahnya manajemen password, serta serangan Denial of Service (DoS) dengan metode TCP SYN Flood yang sukses melumpuhkan ketersediaan layanan. Banjir paket data dari serangan tersebut menyebabkan mikrokontroler mengalami kehabisan sumber daya (*resource exhaustion*) yang berujung pada kegagalan fungsi sistem (*downtime*) dan *reboot* otomatis.
+
+## 🛡️ Saran & Mitigasi
+Untuk pengembangan selanjutnya, kami sarankan sistem keamanan jaringan pada perangkat ini perlu ditingkatkan lagi guna menutup celah serangan yang telah ditemukan. Langkah antisipasi yang disarankan meliputi penggunaan kombinasi password yang kompleks (hindari password default) dan penerapan logika pembatasan percobaan login (*Rate Limiting*) pada kode program untuk mencegah Brute Force. Selain itu, optimasi manajemen memori dan pengaturan *timeout* koneksi pada ESP32 juga diperlukan agar perangkat lebih tahan terhadap tumpukan permintaan koneksi palsu yang menyebabkan *hang*.
