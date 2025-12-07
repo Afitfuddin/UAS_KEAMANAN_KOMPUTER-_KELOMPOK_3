@@ -131,16 +131,19 @@ Sebelum melakukan serangan, pastikan tools **Hydra** sudah terinstall. Jika belu
 sudo apt install hydra`
 
 Eksekusi Serangan (Exploitation) 
-<br>**Command:**<br>`hydra -t 1 -L user.txt -P password.txt 10.172.145.82 http-post-form '/login:username=^USER^&password=^PASS^:Username/Password Salah!'`
+<br>**Command:**<br>
+```bash
+hydra -t 1 -L user.txt -P password.txt 10.172.145.82 http-post-form '/login:username=^USER^&password=^PASS^:Username/Password Salah!'`
+```
 
 Setelah terinstall, kami menjalankan serangan dengan memadukan wordlist yang sudah dibuat (`user.txt` dan `password.txt`) dengan parameter HTML yang ditemukan sebelumnya.<br> 
 **Hasil:**<br><img width="1366" height="654" alt="Langkah 7  Menemukan user dan password yang valid" src="https://github.com/user-attachments/assets/e409132d-9585-49f0-944f-772c22033caa" />
-*Hydra berhasil menemukan kredensial yang valid* 
+*Hydra berhasil menemukan kredensial yang valid.* 
 
 
 ## 💥 Skenario Serangan 2: Denial of Service (DoS)
 
-### 🧐 Apa itu DoS?
+### Apa itu DoS?
 **Denial of Service (DoS)** adalah serangan yang bertujuan melumpuhkan layanan agar tidak bisa diakses oleh pengguna yang sah. Bayangkan sebuah pintu masuk gedung yang hanya muat untuk satu orang. Jika kita mengirim ribuan "orang palsu" untuk berdesak-desakan di pintu tersebut secara bersamaan, maka orang asli (pengguna sah) tidak akan bisa masuk. Dalam pengujian ini, kami menggunakan metode **TCP SYN Flood**. Kami membanjiri ESP32 dengan permintaan koneksi palsu hingga memori/CPU-nya penuh (*Resource Exhaustion*), menyebabkan sistem melambat, *hang*, atau *reboot*.
 
 ---
@@ -155,3 +158,48 @@ Kami menggunakan tools **Pentmenu** untuk mempermudah serangan. Pentmenu sebenar
 | :---: | :---: |
 | <img src="https://github.com/user-attachments/assets/47288dc2-9144-4c5b-b883-d16b6a756115" width="100%"> | <img src="https://github.com/user-attachments/assets/cad8327c-ce01-415c-857e-5377cd0dd355" width="100%"> |
 | *Mengunduh script & memberi izin eksekusi (`chmod +x`)* | *Antarmuka awal Pentmenu siap digunakan* |
+
+#### 2. Konfigurasi & Eksekusi Serangan (TCP SYN Flood)
+Setelah masuk ke menu utama, kami melakukan konfigurasi serangan. Kami memilih modul **DoS** > **TCP SYN Flood**. Metode ini dipilih karena sangat efektif untuk melumpuhkan perangkat IoT dengan sumber daya terbatas seperti ESP32. Kami memasukkan **IP Target** (`10.172.145.82`) dan **Port** (`80`). Setelah dikonfirmasi, *Pentmenu* (via hping3) mulai membanjiri target dengan ribuan paket SYN palsu per detik.
+
+| Setup Target IP & Port | Proses Flooding Berjalan |
+| :---: | :---: |
+| <img src="https://github.com/user-attachments/assets/8bec5850-37a3-433b-938a-05e14577db54" width="100%"> | <img src="https://github.com/user-attachments/assets/cdb3f5be-a66c-41f5-8367-d4bb092c6264" width="100%"> |
+| *Input IP ESP32 dan Port 80* | *Mengirim paket SYN secara masif* |
+
+#### 3. Monitoring Lalu Lintas Jaringan (Tcpdump)
+Untuk memvalidasi bahwa serangan benar-benar terkirim, kami melakukan pemantauan jaringan menggunakan **Tcpdump** di sisi penyerang. Dengan memfilter paket yang menuju ke IP target (`dst host 10.172.145.82`), terlihat adanya banjir data (*flooding*) yang masuk secara terus-menerus dengan kecepatan tinggi. Ini adalah bukti visual bahwa server sedang dihujani permintaan palsu.
+
+**Perintah Monitoring:**
+```bash
+sudo tcpdump -i eth1 -n "dst host 10.172.145.82"
+```
+| Monitoring Traffic (Bagian 1) | Monitoring Traffic (Bagian 2) |
+| :---: | :---: |
+| <img src="https://github.com/user-attachments/assets/8719c09b-52fd-4044-8831-44c0f7cddf73" width="100%"> | <img src="https://github.com/user-attachments/assets/cdf6dbc8-fd9f-432e-80ce-44ee6f6f6c16" width="100%"> |
+| *Paket TCP SYN yang terkirim* | *Visualisasi banjir paket data (Flood)* |
+
+
+#### 4. Dampak Serangan (Impact Analysis)
+Untuk memverifikasi keberhasilan serangan, kami membandingkan aksesibilitas Web Server sebelum dan sesudah serangan dilakukan. <br>
+**Sebelum Serangan:** Halaman Login dan Dashboard dapat diakses dengan lancar. Data telemetri seperti Status GPS (*Locked*) dan jumlah satelit terbaca secara *real-time*.<br>
+**Sesudah Serangan:** Web Server menjadi tidak responsif (*Unreachable*). Browser menampilkan pesan error karena ESP32 mengalami *Resource Exhaustion* (kehabisan memori) akibat kebanjiran paket data.
+Before Diserang Dos:
+| Kondisi Normal (Login) | Kondisi Normal (Dashboard) |
+| :---: | :---: |
+| <img src="https://github.com/user-attachments/assets/27adc4b5-b30c-4d4d-8353-3b409cb46c13" width="100%"> | <img src="https://github.com/user-attachments/assets/b660e662-0631-44ae-b5cc-aa7cfcf319bc" width="100%"> |
+| *Halaman Login* | *Dashboard menampilkan data GPS & Log* |
+
+After Diserang Dos:
+| Situs Tidak Dapat Dijangkau | Loading Terus Menerus |
+| :---: | :---: |
+| <img src="https://github.com/user-attachments/assets/6b1835c3-260f-4422-91e3-14034432ff1d" width="100%"> | <img src="https://github.com/user-attachments/assets/a4dbc783-a417-48cc-9ac8-7bd71810c5b0" width="100%"> |
+| *Connection Timed Out* | *Sistem Gagal Merespons (Hang)* |
+
+#### 5. Penghentian Serangan
+Setelah dampak serangan terdokumentasi, proses *flooding* dihentikan dengan menekan `Ctrl+C` pada terminal Pentmenu agar jaringan kembali normal. Namun, pada beberapa kasus, ESP32 memerlukan *restart* manual untuk memulihkan fungsinya secara total.
+
+| Menghentikan Script Attack |
+| :---: |
+| <img src="https://github.com/user-attachments/assets/b0686004-a1aa-47c1-9e2e-e69fd4f94129" width="100%"> |
+| *Menghentikan proses hping3* |
