@@ -185,6 +185,7 @@ Untuk memverifikasi keberhasilan serangan, kami membandingkan aksesibilitas Web 
 | :---: | :---: |
 | <img src="https://github.com/user-attachments/assets/27adc4b5-b30c-4d4d-8353-3b409cb46c13" width="100%"> | <img src="https://github.com/user-attachments/assets/b660e662-0631-44ae-b5cc-aa7cfcf319bc" width="100%"> |
 | *Halaman Login* | *Dashboard menampilkan data GPS & Log* |
+
 <br>
 **Sesudah Serangan:** Web Server menjadi tidak responsif (*Unreachable*). Browser menampilkan pesan error karena ESP32 mengalami *Resource Exhaustion* (kehabisan memori) akibat kebanjiran paket data.<br>
 | Situs Tidak Dapat Dijangkau | Loading Terus Menerus |
