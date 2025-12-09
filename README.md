@@ -3,7 +3,7 @@ Analisis keamanan Web Server pada perangkat IoT Smart Blind Stick berbasis ESP32
 
 ---
 
-## 👥 Anggota Kelompok 4
+## 👥 Anggota Kelompok 3
 Berikut adalah tim yang terlibat dalam penyusunan laporan dan pengujian ini:
 
 | No | Nama | NIM |
